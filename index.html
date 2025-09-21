@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindBuddy - Youth Mental Wellness</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container">
+                <div class="header-content">
+                    <h1 class="app-title">🧠 MindBuddy</h1>
+                    <button class="crisis-btn btn btn--secondary btn--sm" id="crisisBtn">
+                        🆘 Crisis Help
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="container">
+                <div class="nav-content">
+                    <button class="nav-btn active" data-section="dashboard">🏠 Dashboard</button>
+                    <button class="nav-btn" data-section="chat">💬 Chat</button>
+                    <button class="nav-btn" data-section="emotions">📊 Emotions</button>
+                    <button class="nav-btn" data-section="notifications">🔔 Notifications</button>
+                    <button class="nav-btn" data-section="resources">📚 Resources</button>
+                    <button class="nav-btn" data-section="settings">⚙️ Settings</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <div class="container">
+                <!-- Dashboard Section -->
+                <section id="dashboard" class="app-section active">
+                    <div class="welcome-card card">
+                        <div class="card__body">
+                            <h2>Welcome back! 👋</h2>
+                            <p>How are you feeling today? Your mental wellness journey matters.</p>
+                            <div class="quick-actions">
+                                <button class="btn btn--primary" onclick="showSection('chat')">Start Chatting</button>
+                                <button class="btn btn--secondary" onclick="showQuickMoodCheck()">Quick Mood Check</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="dashboard-item card">
+                            <div class="card__body">
+                                <h3>Today's Mood</h3>
+                                <div class="current-mood" id="currentMood">😊 Happy</div>
+                                <p class="mood-time" id="moodTime">Last updated: Never</p>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-item card">
+                            <div class="card__body">
+                                <h3>Recent Activity</h3>
+                                <div class="activity-list" id="activityList">
+                                    <p class="text-secondary">No recent activity</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-item card">
+                            <div class="card__body">
+                                <h3>Next Check-in</h3>
+                                <div class="next-checkin" id="nextCheckin">In 45 minutes</div>
+                                <p>We'll gently remind you to check in with yourself</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Architecture -->
+                    <div class="card mt-24">
+                        <div class="card__body">
+                            <h3>How MindBuddy Works</h3>
+                            <img src="https://ppl-ai-code-interpreter-files.s3.amazonaws.com/web/direct-files/8cc7deeab2d5a0570e772baeb202d2ac/cfc3cd60-185a-44ff-a312-9bee4cb3d608/059b4cc6.png" alt="MindBuddy System Architecture" class="architecture-img">
+                            <p class="text-secondary mt-8">Our comprehensive system combines AI chatbot technology, emotion tracking, and personalized support to help you on your wellness journey.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Chat Section -->
+                <section id="chat" class="app-section">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <h2>Chat with MindBuddy</h2>
+                            <span class="chat-status">🟢 Online</span>
+                        </div>
+                        
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message bot-message">
+                                <div class="message-content">
+                                    <p>Hi there! I'm MindBuddy, your wellness companion. I'm here to listen and support you. How are you feeling right now? 💙</p>
+                                </div>
+                                <div class="message-time">Just now</div>
+                            </div>
+                        </div>
+
+                        <div class="typing-indicator hidden" id="typingIndicator">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span>MindBuddy is typing...</span>
+                        </div>
+
+                        <div class="chat-input-container">
+                            <div class="chat-input-wrapper">
+                                <input type="text" id="chatInput" class="form-control" placeholder="Type your message here..." maxlength="500">
+                                <button id="sendBtn" class="btn btn--primary">Send</button>
+                            </div>
+                            <div class="detected-emotion" id="detectedEmotion"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Emotions Section -->
+                <section id="emotions" class="app-section">
+                    <div class="emotions-header">
+                        <h2>Emotion Tracking</h2>
+                        <p>Track your emotional patterns to better understand your wellbeing</p>
+                    </div>
+
+                    <div class="mood-selector card">
+                        <div class="card__body">
+                            <h3>How are you feeling right now?</h3>
+                            <div class="emotion-grid" id="emotionGrid">
+                                <button class="emotion-btn" data-emotion="happy">😊 Happy</button>
+                                <button class="emotion-btn" data-emotion="sad">😢 Sad</button>
+                                <button class="emotion-btn" data-emotion="anxious">😰 Anxious</button>
+                                <button class="emotion-btn" data-emotion="angry">😡 Angry</button>
+                                <button class="emotion-btn" data-emotion="neutral">😐 Neutral</button>
+                                <button class="emotion-btn" data-emotion="tired">😴 Tired</button>
+                                <button class="emotion-btn" data-emotion="calm">😌 Calm</button>
+                                <button class="emotion-btn" data-emotion="stressed">😓 Stressed</button>
+                            </div>
+                            <div class="intensity-slider">
+                                <label for="intensitySlider">Intensity (1-10):</label>
+                                <input type="range" id="intensitySlider" min="1" max="10" value="5">
+                                <span id="intensityValue">5</span>
+                            </div>
+                            <textarea id="emotionNotes" class="form-control mt-8" placeholder="Add any notes about your feelings (optional)" rows="3"></textarea>
+                            <button id="logEmotionBtn" class="btn btn--primary mt-8">Log Emotion</button>
+                        </div>
+                    </div>
+
+                    <div class="emotion-chart-container card">
+                        <div class="card__body">
+                            <h3>Your Emotion Trends (Past 7 Days)</h3>
+                            <div class="chart-container" style="position: relative; height: 300px;">
+                                <canvas id="emotionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emotion-history card">
+                        <div class="card__body">
+                            <h3>Emotion History</h3>
+                            <div class="history-list" id="emotionHistory">
+                                <p class="text-secondary">No emotions logged yet. Start tracking your feelings above!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Notifications Section -->
+                <section id="notifications" class="app-section">
+                    <div class="notifications-header">
+                        <h2>Notifications & Check-ins</h2>
+                        <p>Stay connected with your wellness journey through gentle reminders</p>
+                    </div>
+
+                    <div class="notification-settings card">
+                        <div class="card__body">
+                            <h3>Notification Preferences</h3>
+                            <div class="settings-grid">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enableNotifications" checked>
+                                    Enable hourly check-ins
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enableMotivational" checked>
+                                    Motivational messages
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enableCoping" checked>
+                                    Coping strategy reminders
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notification-timeline card">
+                        <div class="card__body">
+                            <h3>Today's Notification Timeline</h3>
+                            <div class="timeline" id="notificationTimeline">
+                                <!-- Timeline items will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Resources Section -->
+                <section id="resources" class="app-section">
+                    <div class="resources-header">
+                        <h2>Wellness Resources</h2>
+                        <p>Tools and information to support your mental health journey</p>
+                    </div>
+
+                    <div class="resources-grid">
+                        <div class="resource-category card">
+                            <div class="card__body">
+                                <h3>🧘‍♀️ Coping Strategies</h3>
+                                <div class="coping-list" id="copingList">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="resource-category card">
+                            <div class="card__body">
+                                <h3>🆘 Crisis Resources</h3>
+                                <div class="crisis-list" id="crisisList">
+                                    <!-- Populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="resource-category card">
+                            <div class="card__body">
+                                <h3>🌱 Educational Content</h3>
+                                <div class="education-links">
+                                    <a href="https://www.nami.org/Your-Journey/Kids-Teens-and-Young-Adults" target="_blank" class="resource-link">Understanding Mental Health</a>
+                                    <a href="https://www.mayoclinic.org/healthy-lifestyle/stress-management" target="_blank" class="resource-link">Stress Management Tips</a>
+                                    <a href="https://www.headspace.com/meditation" target="_blank" class="resource-link">Meditation Basics</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="app-section">
+                    <div class="settings-header">
+                        <h2>Settings</h2>
+                        <p>Customize your MindBuddy experience</p>
+                    </div>
+
+                    <div class="settings-sections">
+                        <div class="settings-section card">
+                            <div class="card__body">
+                                <h3>Profile Information</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Name</label>
+                                    <input type="text" id="userName" class="form-control" placeholder="Enter your name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Age</label>
+                                    <input type="number" id="userAge" class="form-control" min="13" max="25" placeholder="Enter your age">
+                                </div>
+                                <button class="btn btn--primary" onclick="saveProfile()">Save Profile</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section card">
+                            <div class="card__body">
+                                <h3>Emergency Contacts</h3>
+                                <div class="form-group">
+                                    <label class="form-label">Emergency Contact Name</label>
+                                    <input type="text" id="emergencyName" class="form-control" placeholder="Parent, guardian, or trusted person">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Emergency Contact Phone</label>
+                                    <input type="tel" id="emergencyPhone" class="form-control" placeholder="Phone number">
+                                </div>
+                                <button class="btn btn--primary" onclick="saveEmergencyContact()">Save Contact</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-section card">
+                            <div class="card__body">
+                                <h3>Privacy & Data</h3>
+                                <p class="text-secondary">Your privacy is important to us. All data is stored locally on your device.</p>
+                                <div class="privacy-actions">
+                                    <button class="btn btn--outline" onclick="exportData()">Export My Data</button>
+                                    <button class="btn btn--outline" onclick="clearData()">Clear All Data</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Crisis Modal -->
+        <div id="crisisModal" class="modal hidden">
+            <div class="modal-backdrop" onclick="closeCrisisModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Crisis Resources</h2>
+                    <button class="modal-close" onclick="closeCrisisModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>If you're in immediate danger, call 911 or go to your nearest emergency room.</strong></p>
+                    <div class="crisis-resources-modal" id="crisisResourcesModal">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Mood Check Modal -->
+        <div id="quickMoodModal" class="modal hidden">
+            <div class="modal-backdrop" onclick="closeQuickMoodModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Quick Mood Check</h2>
+                    <button class="modal-close" onclick="closeQuickMoodModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="quick-emotion-grid">
+                        <button class="emotion-btn" onclick="quickMoodSelect('happy')">😊 Happy</button>
+                        <button class="emotion-btn" onclick="quickMoodSelect('sad')">😢 Sad</button>
+                        <button class="emotion-btn" onclick="quickMoodSelect('anxious')">😰 Anxious</button>
+                        <button class="emotion-btn" onclick="quickMoodSelect('neutral')">😐 Neutral</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
